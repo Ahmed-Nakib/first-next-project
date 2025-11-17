@@ -14,10 +14,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import Link from "next/link"
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
-  { href: "#", label: "Home" },
+  { href: "/", label: "Home" },
   {
     label: "Men",
     submenu: true,
@@ -58,7 +59,7 @@ const navigationLinks = [
     items: [
       { href: "#", label: "Getting Started", icon: "BookOpenIcon" },
       { href: "#", label: "Tutorials", icon: "LifeBuoyIcon" },
-      { href: "#", label: "About Us", icon: "InfoIcon" },
+      { href: "/about", label: "About Us", icon: "InfoIcon" },
     ],
   },
 ]
@@ -158,9 +159,9 @@ export default function Navbar() {
           </Popover>
           {/* Main nav */}
           <div className="flex items-center gap-6">
-            <a href="#" className="text-primary       hover:text-primary/90 text-2xl font-bold">
+            <Link href="#" className="text-primary       hover:text-primary/90 text-2xl font-bold">
             Bagddas
-            </a>
+           </Link>
             {/* Navigation menu */}
             <NavigationMenu viewport={false} className="max-md:hidden">
               <NavigationMenuList className="gap-2">
