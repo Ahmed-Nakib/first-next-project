@@ -1,4 +1,6 @@
+import CategoryCarousel from "@/components/CategoryCarousel";
 import HeroCarouselSection from "@/components/HeroCarouselSection";
+import LatestBlogs from "@/components/LatestBlogs";
 import LatestProduct from "@/components/LatestProduct";
 
 
@@ -35,6 +37,15 @@ function HomePage() {
             <LatestProduct />
             <LatestProduct />
             <LatestProduct />
+           </div>
+           <CategoryCarousel />
+           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <LatestBlogs />
+            <LatestBlogs />
+            <LatestBlogs />
+            <LatestBlogs />
+            <LatestBlogs />
+            <LatestBlogs />
            </div>
         </main>
      );
