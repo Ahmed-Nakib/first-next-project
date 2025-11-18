@@ -1,7 +1,7 @@
 import CategoryCarousel from "@/components/CategoryCarousel";
-import HeroCarouselSection from "@/components/HeroCarouselSection";
 import LatestBlogs from "@/components/LatestBlogs";
 import LatestProduct from "@/components/LatestProduct";
+import ThreeDCarousel from "@/components/ThreeDCarousel";
 
 
 const caseStudies = [
@@ -12,8 +12,28 @@ const caseStudies = [
     description:
       "Wearable textile sensors designed for continuous heart and respiration monitoring.",
     tags: ["Healthcare", "Smart Fabric", "Wearables"],
-    imageUrl: "/images/health.jpg",
+    imageUrl: "/slide.png",
     link: "/case/1",
+  },
+  {
+    id: 2,
+    title: "Sports Performance Tracking",
+    brand: "FitPro",
+    description:
+      "Real-time athletic tracking using embedded textile pressure sensors.",
+    tags: ["Sports", "IoT", "Tracking"],
+    imageUrl: "/images/sports.jpg",
+    link: "/case/2",
+  },
+  {
+    id: 2,
+    title: "Sports Performance Tracking",
+    brand: "FitPro",
+    description:
+      "Real-time athletic tracking using embedded textile pressure sensors.",
+    tags: ["Sports", "IoT", "Tracking"],
+    imageUrl: "/images/sports.jpg",
+    link: "/case/2",
   },
   {
     id: 2,
@@ -31,7 +51,7 @@ const caseStudies = [
 function HomePage() {
     return ( 
         <main className="max-w-7xl mx-auto p-6">
-            <HeroCarouselSection items={caseStudies} />
+          <ThreeDCarousel items={caseStudies} />
            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <LatestProduct />
             <LatestProduct />

@@ -8,8 +8,10 @@ import React, {
   TouchEvent,
 } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import { useIsMobile } from "@/app/src/hooks/use-mobile";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/app/component2/ui/card";
+import { useIsMobile } from "../hooks/use-mobile";
+import Link from "next/link";
+
 export interface ThreeDCarouselItem {
   id: number;
   title: string;
@@ -36,6 +38,9 @@ const ThreeDCarousel = ({
   autoRotate = true,
   rotateInterval = 4000,
   cardHeight = 500,
+  title = "From Textile to Intelligence",
+  subtitle = "Customer Cases",
+  tagline = "Explore how our textile sensor technology is revolutionizing multiple industries with intelligent fabric solutions tailored to specific needs.",
   isMobileSwipe = true,
 }: ThreeDCarouselProps) => {
   const [active, setActive] = useState(0);
@@ -132,12 +137,25 @@ const ThreeDCarousel = ({
                     }}
                   >
                     <div className="absolute inset-0 bg-black/50" />
+                    <div className="relative z-10 text-center text-white">
+                      <h3 className="text-2xl font-bold mb-2">
+                        {item.brand.toUpperCase()}
+                      </h3>
+                      <div className="w-12 h-1 bg-white mx-auto mb-2" />
+                      <p className="text-sm ">{item.title}</p>
+                    </div>
                   </div>
 
                   <CardContent className="p-6 flex flex-col flex-grow">
                     <h3 className="text-xl font-bold mb-1 text-foreground">
                       {item.title}
                     </h3>
+                    <p className="text-gray-500 text-sm font-medium mb-2">
+                      {item.brand}
+                    </p>
+                    <p className="text-gray-600 text-sm flex-grow">
+                      {item.description}
+                    </p>
 
                     <div className="mt-4">
                       <div className="flex flex-wrap gap-2 mb-4">

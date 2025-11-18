@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
+    <div  className="max-w-7xl mx-auto">
         <Navbar />
       <div>
         <main>{children}</main>
