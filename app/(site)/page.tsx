@@ -26,7 +26,7 @@ const caseStudies = [
     link: "/case/2",
   },
   {
-    id: 2,
+    id: 3,
     title: "Sports Performance Tracking",
     brand: "FitPro",
     description:
@@ -36,7 +36,7 @@ const caseStudies = [
     link: "/case/2",
   },
   {
-    id: 2,
+    id: 4,
     title: "Sports Performance Tracking",
     brand: "FitPro",
     description:
