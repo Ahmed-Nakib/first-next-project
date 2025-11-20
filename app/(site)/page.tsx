@@ -1,7 +1,7 @@
 import CategoryCarousel from "@/components/CategoryCarousel";
-import LatestBlogs from "@/components/LatestBlogs";
 import LatestProduct from "@/components/LatestProduct";
 import ThreeDCarousel from "@/components/ThreeDCarousel";
+import TopProduct from "@/components/TopProduct";
 
 
 const caseStudies = [
@@ -60,12 +60,10 @@ function HomePage() {
            </div>
            <CategoryCarousel />
            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            <LatestBlogs />
-            <LatestBlogs />
-            <LatestBlogs />
-            <LatestBlogs />
-            <LatestBlogs />
-            <LatestBlogs />
+            <TopProduct/>
+            <TopProduct/>
+            <TopProduct/>
+            <TopProduct/>
            </div>
         </main>
      );
