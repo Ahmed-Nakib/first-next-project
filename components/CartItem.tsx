@@ -1,68 +1,78 @@
-// components/CartItem.tsx
-'use client';
+"use client";
 
-import React from 'react';
-
-// Item data structure (unchanged)
-interface Item {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+import React from "react";
+import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { increaseQuantity, decreaseQuantity, removeItem, CartItem as CartItemType } from "@/features/cart/cartSlice"; // Assuming the path
+import { Minus, Plus, Trash2 } from "lucide-react"; // Assuming you have lucide-react or similar icons
 
 interface CartItemProps {
-  item: Item;
+  item: CartItemType; // Using the exported type from the slice
 }
 
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
-  const itemTotal = item.price * item.quantity;
+  const dispatch = useDispatch();
+  // Using item.qty instead of item.quantity
+  const itemTotal = item.price * item.qty; 
 
   return (
-    // Outer Container: Mobile-first responsive grid layout
-    // md:grid-cols-[1fr_auto_auto] ensures good spacing on medium/large screens
     <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-4 md:gap-6 py-4 border-b border-gray-200 items-center">
-      
-      {/* 1. Item Details (Image + Name/Price) */}
+
+      {/* Product Image + Info */}
       <div className="flex items-start space-x-4 col-span-full md:col-auto">
-        {/* Placeholder for Product Image */}
-        <div className="h-16 w-16 bg-gray-200 rounded-md flex-shrink-0">
-            {/* Image Tag can be used here later */}
+        <div className="h-16 w-16 rounded-md overflow-hidden bg-gray-200 flex-shrink-0">
+          <Image 
+            src={item.image} 
+            alt={item.title} 
+            width={64} 
+            height={64} 
+            className="object-contain"
+          />
         </div>
-        
-        {/* Item Info */}
         <div>
-          <h3 className="text-base sm:text-lg font-semibold text-gray-800 line-clamp-2">{item.name}</h3>
-          <p className="text-sm text-gray-500">${item.price.toFixed(2)} per unit</p>
+          <h3 className="text-base sm:text-lg font-semibold text-gray-800 line-clamp-2">
+            {item.title}
+          </h3>
+          <p className="text-sm text-gray-500">
+            ${item.price} per unit
+          </p>
         </div>
       </div>
 
-      {/* 2. Quantity Controls (Mid Column on Desktop) */}
-      {/* Mobile: Use order-3 to place it under name but before total */}
-      <div className="flex justify-start md:justify-center order-3 md:order-2"> 
+      {/* Quantity Controls - NOW FUNCTIONAL */}
+      <div className="flex justify-start md:justify-center order-3 md:order-2">
         <div className="flex items-center border rounded-lg overflow-hidden">
-          {/* In a real app, these buttons would use useState/useReducer */}
-          <button className="px-3 py-1 text-gray-600 hover:bg-gray-100 transition">-</button>
-          <span className="px-3 py-1 text-sm font-medium border-l border-r">{item.quantity}</span>
-          <button className="px-3 py-1 text-gray-600 hover:bg-gray-100 transition">+</button>
+          <button 
+            onClick={() => dispatch(decreaseQuantity(item.id))}
+            className="p-2 hover:bg-gray-100 transition duration-150 disabled:opacity-50"
+            disabled={item.qty <= 1} // Optionally disable if qty is 1, relying on removeItem
+          >
+            <Minus className="h-4 w-4 text-gray-600" />
+          </button>
+          <span className="px-3 py-1 text-sm font-medium border-l border-r w-8 text-center">
+            {item.qty} {/* Changed from item.quantity to item.qty */}
+          </span>
+          <button 
+            onClick={() => dispatch(increaseQuantity(item.id))}
+            className="p-2 hover:bg-gray-100 transition duration-150"
+          >
+            <Plus className="h-4 w-4 text-gray-600" />
+          </button>
         </div>
       </div>
-      
-      {/* 3. Total Price and Remove Button (Last Column on Desktop) */}
-      {/* Mobile: Use order-2 to place it beside quantity or slightly higher */}
-      <div className="flex justify-between md:justify-end items-center space-x-4 order-2 md:order-3"> 
-          {/* Total Price */}
-          <p className="text-base sm:text-lg font-bold text-gray-900 w-20 text-right">
-            ${itemTotal.toFixed(2)}
-          </p>
-          
-          {/* Remove Button */}
-          <button className="text-red-500 hover:text-red-700 transition flex-shrink-0">
-            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-          </button>
+
+      {/* Total + Remove - NOW FUNCTIONAL */}
+      <div className="flex justify-between md:justify-end items-center space-x-4 order-2 md:order-3">
+        <p className="text-base sm:text-lg font-bold text-gray-900 w-20 text-right">
+          ${itemTotal.toFixed(2)}
+        </p>
+        <button
+          onClick={() => dispatch(removeItem(item.id))}
+          className="text-red-500 hover:text-red-700 transition duration-150"
+          title="Remove Item"
+        >
+          <Trash2 className="h-5 w-5" />
+        </button>
       </div>
     </div>
   );

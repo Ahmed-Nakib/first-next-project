@@ -52,10 +52,7 @@ function HomePage() {
     return ( 
         <main className="max-w-7xl mx-auto p-6">
           <ThreeDCarousel items={caseStudies} />
-           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <LatestProduct />
-            <LatestProduct />
-            <LatestProduct />
+           <div>
             <LatestProduct />
            </div>
            <CategoryCarousel />
