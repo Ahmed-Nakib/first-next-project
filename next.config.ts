@@ -4,6 +4,14 @@ const nextConfig: NextConfig = {
    reactStrictMode: true,
   images: {
     domains: ['fakestoreapi.com'],
+     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
 };
 

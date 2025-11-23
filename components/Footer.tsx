@@ -1,137 +1,110 @@
 "use client";
 
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaTwitter,
-  FaGithub,
-  FaDribbble,
-  FaCcVisa,
-  FaCcMastercard,
-  FaPaypal,
-} from "react-icons/fa";
-import { SiApple, SiGoogleplay } from "react-icons/si";
+import Link from "next/link";
+import { Instagram, Twitter, Facebook, Linkedin } from "lucide-react";
+import React from "react"; // Explicit import
 
-export default function EcommerceFooter() {
+const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-20">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14">
-
-        {/* Subscribe Section */}
-        <div className="text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Stay Updated. Shop Smart.
+    <footer className="bg-[#111111] text-white border-t border-[#333] mt-12">
+      <div className="max-w-7xl mx-auto px-6 py-10 
+                      grid gap-10 
+                      sm:grid-cols-2 
+                      md:grid-cols-3 
+                      lg:grid-cols-4 lg:py-14"> 
+        
+        {/* Logo + About */}
+        <div className="sm:col-span-2 md:col-span-1 lg:col-span-1">
+          <h2 className="text-2xl font-bold text-white mb-3 tracking-wide">
+            Bagddas
           </h2>
-          <p className="mt-3 text-gray-500 dark:text-gray-400">
-            Get exclusive offers, big discounts & latest product launches.
+
+          <p className="text-sm text-[#CCCCCC] leading-relaxed max-w-xs">
+            The best place to buy trending fashion, accessories & shoes.
           </p>
 
-          <div className="mt-6 flex items-center justify-center gap-2 flex-wrap">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 w-64 sm:w-80 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-black focus:outline-none"
-            />
-            <button className="px-6 py-3 rounded-xl bg-black text-white font-semibold hover:bg-gray-800 transition">
-              Subscribe
-            </button>
+          <div className="flex gap-4 mt-5">
+            <Link href="#" className="hover:text-[#CC071E] transition" aria-label="Facebook link">
+              <Facebook className="h-5 w-5" />
+            </Link>
+            <Link href="#" className="hover:text-[#CC071E] transition" aria-label="Instagram link">
+              <Instagram className="h-5 w-5" />
+            </Link>
+            <Link href="#" className="hover:text-[#CC071E] transition" aria-label="Twitter link">
+              <Twitter className="h-5 w-5" />
+            </Link>
+            <Link href="#" className="hover:text-[#CC071E] transition" aria-label="LinkedIn link">
+              <Linkedin className="h-5 w-5" />
+            </Link>
           </div>
         </div>
 
-        {/* Main Footer Links */}
-        <div className="mt-16 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-12 text-sm">
-
+        {/* Quick Links */}
+        <div className="grid grid-cols-2 gap-8 sm:gap-12 md:col-span-1">
           {/* Shop */}
           <div>
-            <h3 className="font-bold text-gray-900 dark:text-white mb-4">Shop</h3>
-            <ul className="space-y-2">
-              {["Men Fashion", "Women Fashion", "Electronics", "Accessories", "Shoes"].map((item, i) => (
-                <li key={i}>
-                  <a className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Help */}
-          <div>
-            <h3 className="font-bold text-gray-900 dark:text-white mb-4">Help</h3>
-            <ul className="space-y-2">
-              {["Track Order", "Returns", "Shipping", "FAQs", "Payments"].map((item, i) => (
-                <li key={i}>
-                  <a className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">
-                    {item}
-                  </a>
-                </li>
-              ))}
+            <h3 className="font-semibold text-sm mb-3 text-white tracking-wide">
+              Shop
+            </h3>
+            <ul className="space-y-2 text-sm text-[#CCCCCC]">
+              <li><Link href="#" className="hover:text-white transition">Men</Link></li>
+              <li><Link href="#" className="hover:text-white transition">Women</Link></li>
+              <li><Link href="#" className="hover:text-white transition">Kids</Link></li>
+              <li><Link href="#" className="hover:text-white transition">Accessories</Link></li>
             </ul>
           </div>
 
           {/* Company */}
           <div>
-            <h3 className="font-bold text-gray-900 dark:text-white mb-4">Company</h3>
-            <ul className="space-y-2">
-              {["About Us", "Careers", "Press", "Blog"].map((item, i) => (
-                <li key={i}>
-                  <a className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">
-                    {item}
-                  </a>
-                </li>
-              ))}
+            <h3 className="font-semibold text-sm mb-3 text-white tracking-wide">
+              Company
+            </h3>
+            <ul className="space-y-2 text-sm text-[#CCCCCC]">
+              <li><Link href="#" className="hover:text-white transition">About Us</Link></li>
+              <li><Link href="#" className="hover:text-white transition">Contact</Link></li>
+              <li><Link href="#" className="hover:text-white transition">Blog</Link></li>
+              <li><Link href="#" className="hover:text-white transition">Careers</Link></li>
             </ul>
           </div>
-
-          {/* Legal */}
-          <div>
-            <h3 className="font-bold text-gray-900 dark:text-white mb-4">Legal</h3>
-            <ul className="space-y-2">
-              {["Privacy Policy", "Terms & Conditions", "Cookies", "Refund Policy"].map((item, i) => (
-                <li key={i}>
-                  <a className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition">
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Download App */}
-          <div>
-            <h3 className="font-bold text-gray-900 dark:text-white mb-4">Download App</h3>
-            <div className="flex flex-col gap-3">
-              <a href="#" className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition w-36">
-                <SiApple className="text-2xl" /> App Store
-              </a>
-              <a href="#" className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition w-36">
-                <SiGoogleplay className="text-2xl" /> Google Play
-              </a>
-            </div>
-          </div>
         </div>
 
-        {/* Social Media */}
-        <div className="mt-16 flex justify-center gap-6 text-gray-600 dark:text-gray-400 text-xl">
-          <a href="#" className="hover:text-blue-600 transition"><FaFacebookF /></a>
-          <a href="#" className="hover:text-pink-500 transition"><FaInstagram /></a>
-          <a href="#" className="hover:text-blue-400 transition"><FaTwitter /></a>
-          <a href="#" className="hover:text-gray-800 dark:hover:text-white transition"><FaGithub /></a>
-          <a href="#" className="hover:text-pink-400 transition"><FaDribbble /></a>
-        </div>
+        {/* Newsletter */}
+        <div className="sm:col-span-2 md:col-span-1">
+          <h3 className="font-semibold text-sm mb-3 text-white tracking-wide">
+            Newsletter
+          </h3>
 
-        {/* Payment Icons */}
-        <div className="mt-10 flex flex-wrap justify-center gap-6 text-gray-600 dark:text-gray-400 text-3xl">
-          <FaCcVisa />
-          <FaCcMastercard />
-          <FaPaypal />
-        </div>
+          <p className="text-sm text-[#CCCCCC] mb-4 max-w-xs">
+            Subscribe to get latest updates and offers.
+          </p>
 
-        {/* Bottom Text */}
-        <div className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-600 dark:text-gray-400">
-          © {new Date().getFullYear()} YourStore — All rights reserved.
+          <form className="flex flex-col sm:flex-row gap-3 sm:gap-2 w-full max-w-sm">
+            <input
+              type="email"
+              placeholder="Your email"
+              aria-label="Email subscription field"
+              className="w-full border border-[#444] bg-[#1A1A1A] text-white rounded-md px-3 py-2
+                         focus:outline-none focus:ring-2 focus:ring-[#CC071E] placeholder-[#888]"
+              required
+            />
+
+            <button 
+              type="submit" 
+              className="bg-[#CC071E] text-white px-5 py-2 rounded-md 
+                         hover:bg-[#990514] transition w-full sm:w-auto"
+            >
+              Subscribe
+            </button>
+          </form>
         </div>
+      </div>
+
+      {/* Bottom Line */}
+      <div className="border-t border-[#333] mt-6 py-4 text-center text-xs text-[#AAAAAA] tracking-wide">
+        &copy; {new Date().getFullYear()} Bagddas. All rights reserved.
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;
