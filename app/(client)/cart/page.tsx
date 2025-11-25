@@ -1,104 +1,123 @@
 "use client";
+import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
+import { useState } from "react";
+import { RootState } from "@/store/store";
+import { clearCart, removeFromCart, updateQuantity } from "@/features/cart/cartSlice";
+import CheckoutPopup from "@/components/CheckoutPopup";
 
-interface CartItem {
-  _id: string;
-  title: string;
-  subtitle: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+export default function CartPage() {
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const dispatch = useDispatch();
+  const [showPopup, setShowPopup] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "online">("cod");
 
-const demoCartItems: CartItem[] = [
-  {
-    _id: "1",
-    title: "Classic Red Shirt",
-    subtitle: "Comfortable cotton t-shirt",
-    price: 29.99,
-    quantity: 2,
-    image: "/images/shirt-red.png", // replace with your demo image
-  },
-  {
-    _id: "2",
-    title: "Blue Jeans",
-    subtitle: "Slim fit denim",
-    price: 49.99,
-    quantity: 1,
-    image: "/images/jeans-blue.png",
-  },
-  {
-    _id: "3",
-    title: "Sneakers",
-    subtitle: "Stylish running shoes",
-    price: 79.99,
-    quantity: 1,
-    image: "/images/sneakers.png",
-  },
-];
+  if (cart.length === 0)
+    return <p className="text-center mt-10">Your cart is empty.</p>;
 
-function CartListStatic() {
-  const totalPrice = demoCartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
+  const cartTotal = cart.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0);
+  const deliveryCost = paymentMethod === "cod" ? 5 : 0;
+  const finalTotal = cartTotal + deliveryCost;
+
+  const handleIncrease = (id: string) => {
+    const item = cart.find(p => p._id === id);
+    if (item) dispatch(updateQuantity({ _id: id, quantity: (item.quantity || 1) + 1 }));
+  };
+
+  const handleDecrease = (id: string) => {
+    const item = cart.find(p => p._id === id);
+    if (item && (item.quantity || 1) > 1) {
+      dispatch(updateQuantity({ _id: id, quantity: (item.quantity || 1) - 1 }));
+    }
+  };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-6">Your Cart</h1>
-
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 bg-white">
-        {demoCartItems.map((item) => (
-          <div
-            key={item._id}
-            className="bg-[#F5F5F5] p-4 rounded-xl shadow-lg flex flex-col"
-          >
-            {/* Image */}
-            <div className="relative w-full aspect-square h-auto max-h-64 mb-4">
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-contain rounded-lg"
-              />
+      <div className="space-y-4">
+        {cart.map((item) => (
+          <div key={item._id} className="flex items-center gap-4 bg-[#F5F5F5] p-4 rounded-lg">
+            <div className="relative w-24 h-24">
+              <Image src={item.image} alt={item.title} fill className="object-contain rounded" />
             </div>
-
-            {/* Info */}
-            <div className="flex flex-col gap-1 mb-4">
-              <p className="text-base font-semibold text-[#111111] line-clamp-2 min-h-[2.5rem]">
-                {item.title}
+            <div className="flex-1">
+              <h2 className="font-semibold">{item.title}</h2>
+              <div className="flex items-center gap-2 mt-1">
+                <button
+                  className="px-2 py-1 bg-gray-300 rounded hover:bg-gray-400"
+                  onClick={() => handleDecrease(item._id)}
+                >
+                  -
+                </button>
+                <span>{item.quantity}</span>
+                <button
+                  className="px-2 py-1 bg-gray-300 rounded hover:bg-gray-400"
+                  onClick={() => handleIncrease(item._id)}
+                >
+                  +
+                </button>
+              </div>
+              <p className="text-red-600 font-bold mt-1">
+                ${(item.price * (item.quantity || 1)).toFixed(2)}
               </p>
-              <p className="text-base text-[#666666] line-clamp-2 min-h-[2.5rem]">
-                {item.subtitle}
-              </p>
-              <p className="text-xl font-bold text-[#CC071E]">
-                ${item.price.toFixed(2)}
-              </p>
-              <p className="text-sm text-[#666666]">Quantity: {item.quantity}</p>
             </div>
-
-            {/* Buttons */}
-            <div className="grid gap-2 mt-auto">
-              <button className="w-full bg-[#CC071E] text-white px-4 py-2 rounded-md hover:bg-[#990514] transition">
-                Remove
-              </button>
-            </div>
+            <button
+              className="text-white bg-red-600 px-3 py-1 rounded hover:bg-red-800"
+              onClick={() => dispatch(removeFromCart(item._id))}
+            >
+              Remove
+            </button>
           </div>
         ))}
       </div>
 
-      {/* Total */}
-      <div className="mt-6 text-right">
-        <p className="text-xl font-semibold text-[#111111]">
-          Total: <span className="text-[#CC071E]">${totalPrice.toFixed(2)}</span>
-        </p>
-        <button className="mt-4 w-full sm:w-auto bg-[#CC071E] text-white px-6 py-3 rounded-md hover:bg-[#990514] transition">
-          Proceed to Checkout
-        </button>
+      {/* Payment method selector for delivery cost preview */}
+      <div className="mt-6">
+        <p className="font-semibold mb-2">Payment Method (affects delivery cost)</p>
+        <label className="flex items-center gap-2 mr-4">
+          <input
+            type="radio"
+            name="payment"
+            value="cod"
+            checked={paymentMethod === "cod"}
+            onChange={() => setPaymentMethod("cod")}
+          />
+          Cash on Delivery (+$5)
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="radio"
+            name="payment"
+            value="online"
+            checked={paymentMethod === "online"}
+            onChange={() => setPaymentMethod("online")}
+          />
+          Online Payment
+        </label>
       </div>
+
+      <div className="mt-4 text-right space-y-2">
+        <p className="text-lg font-bold">Cart Total: ${cartTotal.toFixed(2)}</p>
+        {deliveryCost > 0 && <p className="text-lg font-bold">Delivery: ${deliveryCost.toFixed(2)}</p>}
+        <p className="text-xl font-bold">Final Total: ${finalTotal.toFixed(2)}</p>
+
+        <div className="flex justify-end gap-2 mt-2">
+          <button
+            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-800"
+            onClick={() => setShowPopup(true)}
+          >
+            Proceed to Buy
+          </button>
+          <button
+            className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-800"
+            onClick={() => dispatch(clearCart())}
+          >
+            Clear Cart
+          </button>
+        </div>
+      </div>
+
+      {showPopup && <CheckoutPopup onClose={() => setShowPopup(false)} total={finalTotal} />}
     </div>
   );
 }
-
-export default CartListStatic;

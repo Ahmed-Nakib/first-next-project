@@ -9,7 +9,6 @@ const navItems = [
   { name: 'Orders', href: '/dashboard/orders', icon: '🛒' },
   { name: 'Products', href: '/dashboard/products', icon: '📦' },
   { name: 'Create', href: '/dashboard/create', icon: '➕' },
-  { name: 'Analytics', href: '/dashboard/analytics', icon: '📈' },
 ];
 
 export default function SideNav() {
