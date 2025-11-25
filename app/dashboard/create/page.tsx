@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -8,37 +7,41 @@ export default function CreateProduct() {
     title: "",
     subtitle: "",
     price: "",
-    description: "",
+    details: "",
     image: null as File | null,
   });
 
-  const submit = async (e: any) => {
+  async function submit(e: any) {
     e.preventDefault();
 
     const fd = new FormData();
     fd.append("title", form.title);
     fd.append("subtitle", form.subtitle);
     fd.append("price", form.price);
-    fd.append("description", form.description);
+    fd.append("details", form.details);
     fd.append("image", form.image as File);
+
+    const token = localStorage.getItem("admin_token");
 
     const res = await fetch("/api/products", {
       method: "POST",
       headers: {
-        "x-admin-token": localStorage.getItem("admin-token") || "",
+        "x-admin-token": token || "",
       },
       body: fd,
     });
 
     const data = await res.json();
+
     if (data.success) {
-      alert("Product created!");
-      window.location.href = "/admin/products";
+      alert("Product Created");
+    } else {
+      alert(data.error);
     }
-  };
+  }
 
   return (
-    <form onSubmit={submit} className="max-w-lg mx-auto p-6 space-y-3">
+    <form onSubmit={submit} className="max-w-lg mx-auto p-6 space-y-4">
       <h1 className="text-xl font-bold">Create Product</h1>
 
       <input
@@ -62,8 +65,8 @@ export default function CreateProduct() {
 
       <textarea
         className="border p-2 w-full"
-        placeholder="Description"
-        onChange={(e) => setForm({ ...form, description: e.target.value })}
+        placeholder="Details"
+        onChange={(e) => setForm({ ...form, details: e.target.value })}
       />
 
       <input

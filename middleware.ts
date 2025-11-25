@@ -1,20 +1,25 @@
-// middleware.ts
-import { withAuth } from "next-auth/middleware";
+import { getToken } from "next-auth/jwt";
+import { NextResponse } from "next/server";
 
-export default withAuth(
-  function middleware(req) {},
-  {
-    callbacks: {
-      authorized: ({ token }) => {
-        // No login = block
-        if (!token) return false;
+export async function middleware(req) {
+  const token = await getToken({ req });
 
-        // Only admin allowed
-        return token.role === "admin";
-      },
-    },
+  const path = req.nextUrl.pathname;
+
+  // Protected routes
+  const protectedRoutes = ["/dashboard", "/dashboard/admin"];
+
+  if (!token && protectedRoutes.includes(path)) {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
-);
+
+  // Admin protection
+  if (path.startsWith("/dashboard/admin") && token?.role !== "admin") {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: ["/dashboard/:path*"],
